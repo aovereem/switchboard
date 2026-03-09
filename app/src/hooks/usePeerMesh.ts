@@ -16,7 +16,7 @@ export interface PeerMeshState {
 
 export function usePeerMesh(
   localStream: MediaStream | null,
-  localPeerId: string,
+  _localPeerId: string,
   signaling: SignalingActions
 ): PeerMeshState {
   const [remoteStreams, setRemoteStreams] = useState<Map<string, MediaStream>>(new Map());
