@@ -1,0 +1,12 @@
+{
+  "name": "switchboard",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": ["app", "worker"],
+  "scripts": {
+    "dev": "npm run dev --workspace=app",
+    "build": "npm run build --workspace=app",
+    "preview": "npm run preview --workspace=app",
+    "deploy:worker": "npm run deploy --workspace=worker"
+  }
+}

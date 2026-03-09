@@ -1,0 +1,4 @@
+/* App-level overrides — most styling is in index.css + Tailwind */
+#root {
+  height: 100vh;
+}
