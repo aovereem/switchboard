@@ -8,8 +8,6 @@ P2P voice, video, screenshare, and chat — directly in your browser. No account
 
 ## Use It
 
-Visit **[switchboard.pages.dev](https://switchboard.pages.dev)** → no install needed.
-
 1. Click **Create Room** — get a code like `DELTA-ECHO-4821`
 2. Send the code (Discord, SMS, whatever)
 3. Your contact visits the same link, clicks **Join Room**, enters the code
@@ -71,7 +69,7 @@ Self-host: [coturn](https://github.com/coturn/coturn).
 ## Limits
 
 - Up to **8 peers** per room
-- Rooms expire after 24h of inactivity
+- Rooms close permanently when the last person leaves — codes are one-use
 - For large groups, recommend turning cameras off — 8-way video is bandwidth-heavy
 
 ---
