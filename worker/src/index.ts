@@ -62,6 +62,16 @@ export class Room {
       return new Response('Expected WebSocket', { status: 426 });
     }
 
+    // Reject if room was already closed (all peers left)
+    const closed = await this.state.storage.get<boolean>('closed');
+    if (closed) {
+      const [client, server] = Object.values(new WebSocketPair()) as [WebSocket, WebSocket];
+      server.accept();
+      server.send(JSON.stringify({ type: 'error', code: 'ROOM_NOT_FOUND' }));
+      server.close(1008, 'Room closed');
+      return new Response(null, { status: 101, webSocket: client });
+    }
+
     const peerId = url.searchParams.get('peer') ?? crypto.randomUUID();
     const displayName = url.searchParams.get('name') ?? 'Anonymous';
 
@@ -131,6 +141,11 @@ export class Room {
     if (!this.sessions.has(peerId)) return;
     this.sessions.delete(peerId);
     this.broadcast(peerId, { type: 'peer-left', peerId });
+
+    if (this.sessions.size === 0) {
+      // Mark room as permanently closed — code can never be reused
+      void this.state.storage.put('closed', true);
+    }
   }
 
   private broadcast(excludeId: string, msg: object) {
