@@ -3,13 +3,18 @@ import { LobbyCreate } from './components/LobbyCreate';
 import { LobbyJoin } from './components/LobbyJoin';
 import { InviteModal } from './components/InviteModal';
 import { Room } from './components/Room';
+import { Footer } from './components/Footer';
+import { TermsPage } from './components/TermsPage';
+import { PrivacyPage } from './components/PrivacyPage';
 
 type Screen =
   | { view: 'home' }
   | { view: 'create' }
   | { view: 'join' }
   | { view: 'invite'; roomCode: string; displayName: string }
-  | { view: 'room'; roomCode: string; peerId: string; displayName: string };
+  | { view: 'room'; roomCode: string; peerId: string; displayName: string }
+  | { view: 'terms' }
+  | { view: 'privacy' };
 
 function generatePeerId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
@@ -17,6 +22,9 @@ function generatePeerId(): string {
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>(() => {
+    const path = window.location.pathname;
+    if (path === '/terms') return { view: 'terms' };
+    if (path === '/privacy') return { view: 'privacy' };
     const params = new URLSearchParams(window.location.search);
     const joinCode = params.get('join');
     if (joinCode) return { view: 'join' };
@@ -33,6 +41,9 @@ export default function App() {
       window.history.replaceState({}, '', window.location.pathname);
     }
   }, [prefillCode]);
+
+  if (screen.view === 'terms') return <TermsPage />;
+  if (screen.view === 'privacy') return <PrivacyPage />;
 
   if (screen.view === 'room') {
     return (
@@ -86,6 +97,7 @@ export default function App() {
           <p className="text-gray-600 text-xs text-center">
             No accounts. No servers. No persistence.
           </p>
+          <Footer />
         </div>
       )}
 
