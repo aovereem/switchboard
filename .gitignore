@@ -7,3 +7,4 @@ app/.env.local
 *.log
 .DS_Store
 .wrangler/
+.claude/settings.local.json
